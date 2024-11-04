@@ -12,11 +12,23 @@ export type SpeedometerChartFormData = QueryFormData & {
     numberFormat?: string;
     showLabel?: boolean;
     segmentAmt: number;
-    s1ChartColor: string;
-    s1Start: number;
-    s1End: number;
     segmentControls: any[];     // Dont know what type this will be atm (createe modal?)
     gSegmentAmt: number;
+    s1ChartColor: string;    
+    s1Start: number;
+    s1End: number;
+    s2ChartColor: string;
+    s2Start: number;
+    s2End: number;
+    s3ChartColor: string;
+    s3Start: number;
+    s3End: number;
+    controlledSegments: any[]   // Create type for this (interface)
+    useSegmentColorData: boolean;
+    dataChartColor: string;
+    dataChartLineThickness: number;
+    outerRadius: number;
+    innerRadius: number;
 }
 
 // Define the strucute for the query data returned by Superset
@@ -25,6 +37,8 @@ export interface SpeedometerQueryData {
     key: string;
     value: number;
 }
+
+
 
 // Define the props that the speedometer component will recieve
 export interface SpeedometerChartProps {
@@ -39,11 +53,24 @@ export interface SpeedometerChartProps {
     numberFormat?: string;
     showLabel?: boolean;
     segmentAmt: number;
-    s1ChartColor?: string;
-    s1Start?: number;
-    s1End?: number;
     segmentControls?: any[];     // Dont know what type this will be atm (createe modal?)
     gSegmentAmt: number;
+    s1ChartColor: string;    
+    s1Start: number;
+    s1End: number;
+    s2ChartColor: string;
+    s2Start: number;
+    s2End: number;
+    s3ChartColor: string;
+    s3Start: number;
+    s3End: number;
+    controlledSegments: any[]   // Create type for this (interface)
+    useSegmentColorData: boolean;
+    dataChartColor: string;
+    dataChartLineThickness: number;
+    outerRadius: number;
+    innerRadius: number;
+
 }
 
 // Defines defailt values for the SpeedometerChartFormData (fallback values)
@@ -55,6 +82,17 @@ export const DEFAULT_FORM_DATA: Partial<SpeedometerChartFormData> = {
     s1ChartColor: '#02F702',
     s1Start: 0,
     s1End: 50,
+    s2ChartColor: '#DBA307',
+    s2Start: 50,
+    s2End: 70,
+    s3ChartColor: '#DB0707',
+    s3Start: 70,
+    s3End: 100,
+    useSegmentColorData: true,
+    dataChartColor: '#4caf50',
+    dataChartLineThickness: 2,
+    outerRadius: 190,
+    innerRadius: 140,
 }
 
 // Transform props for the Speedometer
