@@ -116,9 +116,9 @@ export function checkDataChartColorOption(useDefault: boolean, segmentChartData 
     if(useDefault) {
         console.log(segmentChartData.length)
         for(let i = 0; i<segmentChartData.length; i++) {
-            if(currentValue < segmentChartData[i].end) { // Check if progress is in segment i
+            if(currentValue <= segmentChartData[i].end) { // Check if progress is in segment i
                 return segmentChartData[i].color
-            } else if(currentValue > 100) {     // If progress is above 100% set the color the the latsts segment's color
+            } else if(currentValue >= 100) {     // If progress is above 100% set the color the the latsts segment's color
                 return segmentChartData[2].color
             }
         }
@@ -142,7 +142,8 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
     const maxVal = formData.maxValue ?? DEFAULT_FORM_DATA.maxValue ?? 100;
 
     // Calculate actual percentage based on dataset, mn and max values
-    const progress = calculatePercentage(minVal, maxVal, metricValue);    
+    var progress = calculatePercentage(minVal, maxVal, metricValue); 
+    progress = 70
 
     // Segements 2nd arch
     const segmentAmount = formData.segmentAmt ?? DEFAULT_FORM_DATA.segmentAmt ?? 0;

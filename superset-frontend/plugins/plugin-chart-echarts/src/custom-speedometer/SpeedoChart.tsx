@@ -16,7 +16,6 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
   // Assuming props includes segmentChartFormData
 
   var calculatedData = progress
-  // calculatedData = 100
 
   // Hardcoded values for 2nd chart
   var outerRadiusSecondChart = 195;
