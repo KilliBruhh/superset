@@ -5,13 +5,13 @@ import {
   ControlSubSectionHeader,
 } from '@superset-ui/chart-controls';
 import { DEFAULT_FORM_DATA } from './types';
-
+import { hexToRgba } from './transformProps'
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
     {
       label: t('Query'),
-      expanded: true,
+      expanded: false,
       controlSetRows: [
         [
           {
@@ -184,7 +184,63 @@ const config: ControlPanelConfig = {
               description: t('The Ending degrees of the Third segment'),
             }
           },
-        ],              
+        ],
+        [<ControlSubSectionHeader>{t('Color Data Chart')}</ControlSubSectionHeader>],            
+        [  
+          {
+            name: 'useSegmentColorData',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Use Default Color'),
+              description: 'Select if you want to use the color of the active segment',
+              default: DEFAULT_FORM_DATA.useSegmentColorData
+            },
+          },
+        ],
+        [
+          {
+            name: 'dataChartColor',
+            config: {
+              type: 'ColorPickerControl', 
+              default: DEFAULT_FORM_DATA.dataChartColor,
+              renderTrigger: true,
+              label: t('Data Chart Color (uncheck default)'),
+              description: t('Select the color for the Data chart'),
+            }
+          }
+        ],
+        [
+          {
+            name: 'dataChartLineThickness',
+            config: {
+              type: 'TextControl',
+              isInt: true,
+              default: DEFAULT_FORM_DATA.dataChartLineThickness,
+              label: t('Choose the border line thicknes'),          
+            }
+          },
+        ],
+        [<ControlSubSectionHeader>{t('Data Chart Thickness')}</ControlSubSectionHeader>],
+        [
+          {
+            name: 'innerRadius',
+            config: {
+              type: 'TextControl',
+              isInt: true,
+              default: DEFAULT_FORM_DATA.innerRadius,
+              label: t('Choose the starting radius'),          
+            }
+          },
+          {
+            name: 'outerRadius',
+            config: {
+              type: 'TextControl',
+              isInt: true,
+              default: DEFAULT_FORM_DATA.outerRadius,
+              label: t('Choose the ending radius'),          
+            }
+          },
+        ],
     ]}
   ]
 }
