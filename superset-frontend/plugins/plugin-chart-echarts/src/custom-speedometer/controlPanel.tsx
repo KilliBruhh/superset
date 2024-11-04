@@ -184,7 +184,19 @@ const config: ControlPanelConfig = {
               description: t('The Ending degrees of the Third segment'),
             }
           },
-        ],              
+        ],
+        [<ControlSubSectionHeader>{t('Color Data Chart')}</ControlSubSectionHeader>],            
+        [  
+          {
+            name: 'useSegmentColorData',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Your static label here'),
+              description: 'Select if you want to use the color of the active segment',
+              default: DEFAULT_FORM_DATA.useSegmentColorData
+            },
+          },
+        ],
     ]}
   ]
 }

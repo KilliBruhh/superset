@@ -11,10 +11,12 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
     progress,
     segmentAmt, 
     controlledSegments,
+    dataChartColor,
   } = props;
   // Assuming props includes segmentChartFormData
 
-  var calculatedData = 100
+  var calculatedData = progress
+  // calculatedData = 100
 
   // Hardcoded values for 2nd chart
   var outerRadiusSecondChart = 195;
@@ -168,7 +170,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
               `,
             },
             style: {
-              fill: '#4caf50', 
+              fill: dataChartColor || DEFAULT_FORM_DATA.dataChartColor, 
               stroke: '#000',
               lineWidth: 2, 
             },

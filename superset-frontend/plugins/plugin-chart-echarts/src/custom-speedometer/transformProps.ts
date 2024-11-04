@@ -1,4 +1,7 @@
+import { use } from "echarts/types/src/extension";
 import { DEFAULT_FORM_DATA, SpeedometerTransformProps } from "./types";
+import { forEach } from "lodash";
+import { Progress } from "antd";
 
 type RGBA = {r: number, g: number, b: number, a: number };
 
@@ -109,6 +112,21 @@ export function configureSegmentCharts(formData:any) {
     };
 }
 
+export function checkDataChartColorOption(useDefault: boolean, segmentChartData : any, currentValue: number) {
+    if(useDefault) {
+        console.log(segmentChartData.length)
+        for(let i = 0; i<segmentChartData.length; i++) {
+            if(currentValue < segmentChartData[i].end) { // Check if progress is in segment i
+                return segmentChartData[i].color
+            } else if(currentValue > 100) {     // If progress is above 100% set the color the the latsts segment's color
+                return segmentChartData[2].color
+            }
+        }
+    } else {
+        // Use User input
+    }
+}
+
 export default function transformProps(chartProps: SpeedometerTransformProps) {
     const { width, height, formData, queriesData } = chartProps;
     const { metric } = formData;
@@ -130,6 +148,7 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
     const segmentAmount = formData.segmentAmt ?? DEFAULT_FORM_DATA.segmentAmt ?? 0;
     
     const segmentChartFormData = configureSegmentCharts(formData)        
+    const dataChartColor = checkDataChartColorOption(formData.useSegmentColorData, segmentChartFormData.controlledSegments, progress)
 
     return {
         width,
@@ -138,6 +157,7 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
         maxValue: maxVal,
         progress: progress,
         segmentAmt: segmentAmount,
-        controlledSegments: segmentChartFormData.controlledSegments
+        controlledSegments: segmentChartFormData.controlledSegments,
+        dataChartColor: dataChartColor,
     };
 }
