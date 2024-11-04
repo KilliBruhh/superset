@@ -112,7 +112,7 @@ export function configureSegmentCharts(formData:any) {
     };
 }
 
-export function checkDataChartColorOption(useDefault: boolean, segmentChartData : any, currentValue: number) {
+export function checkDataChartColorOption(useDefault: boolean, segmentChartData : any, currentValue: number, userPickedColor:string) {
     if(useDefault) {
         console.log(segmentChartData.length)
         for(let i = 0; i<segmentChartData.length; i++) {
@@ -124,6 +124,7 @@ export function checkDataChartColorOption(useDefault: boolean, segmentChartData 
         }
     } else {
         // Use User input
+        return rgbaToHex(userPickedColor);
     }
 }
 
@@ -143,13 +144,13 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
 
     // Calculate actual percentage based on dataset, mn and max values
     var progress = calculatePercentage(minVal, maxVal, metricValue); 
-    progress = 70
+    // progress = 70
 
     // Segements 2nd arch
     const segmentAmount = formData.segmentAmt ?? DEFAULT_FORM_DATA.segmentAmt ?? 0;
     
     const segmentChartFormData = configureSegmentCharts(formData)        
-    const dataChartColor = checkDataChartColorOption(formData.useSegmentColorData, segmentChartFormData.controlledSegments, progress)
+    const dataChartColor = checkDataChartColorOption(formData.useSegmentColorData, segmentChartFormData.controlledSegments, progress, formData.dataChartColor)
 
     return {
         width,

@@ -191,11 +191,23 @@ const config: ControlPanelConfig = {
             name: 'useSegmentColorData',
             config: {
               type: 'CheckboxControl',
-              label: t('Your static label here'),
+              label: t('Use Default Color'),
               description: 'Select if you want to use the color of the active segment',
               default: DEFAULT_FORM_DATA.useSegmentColorData
             },
           },
+        ],
+        [
+          {
+            name: 'dataChartColor',
+            config: {
+              type: 'ColorPickerControl', 
+              default: DEFAULT_FORM_DATA.dataChartColor,
+              renderTrigger: true,
+              label: t('Data Chart Color (uncheck default)'),
+              description: t('Select the color for the Data chart'),
+            }
+          }
         ],
     ]}
   ]
