@@ -124,7 +124,7 @@ export function checkDataChartColorOption(useDefault: boolean, segmentChartData 
         }
     } else {
         // Use User input
-        return rgbaToHex(userPickedColor);
+        return rgbaToHex(userPickedColor); // Converts the RGBA code to Hex
     }
 }
 
@@ -151,6 +151,12 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
     
     const segmentChartFormData = configureSegmentCharts(formData)        
     const dataChartColor = checkDataChartColorOption(formData.useSegmentColorData, segmentChartFormData.controlledSegments, progress, formData.dataChartColor)
+    const dataChartLineThickness = formData.dataChartLineThickness
+
+    const outerRadius = formData.outerRadius || DEFAULT_FORM_DATA.outerRadius;
+    const innerRadius = formData.innerRadius || DEFAULT_FORM_DATA.innerRadius;
+
+    // progress = 86
 
     return {
         width,
@@ -161,5 +167,8 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
         segmentAmt: segmentAmount,
         controlledSegments: segmentChartFormData.controlledSegments,
         dataChartColor: dataChartColor,
+        dataChartLineThickness: dataChartLineThickness,
+        outerRadius: outerRadius,
+        innerRadius: innerRadius,
     };
 }

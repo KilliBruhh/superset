@@ -11,7 +11,7 @@ const config: ControlPanelConfig = {
   controlPanelSections: [
     {
       label: t('Query'),
-      expanded: true,
+      expanded: false,
       controlSetRows: [
         [
           {
@@ -208,6 +208,38 @@ const config: ControlPanelConfig = {
               description: t('Select the color for the Data chart'),
             }
           }
+        ],
+        [
+          {
+            name: 'dataChartLineThickness',
+            config: {
+              type: 'TextControl',
+              isInt: true,
+              default: DEFAULT_FORM_DATA.dataChartLineThickness,
+              label: t('Choose the border line thicknes'),          
+            }
+          },
+        ],
+        [<ControlSubSectionHeader>{t('Data Chart Thickness')}</ControlSubSectionHeader>],
+        [
+          {
+            name: 'innerRadius',
+            config: {
+              type: 'TextControl',
+              isInt: true,
+              default: DEFAULT_FORM_DATA.innerRadius,
+              label: t('Choose the starting radius'),          
+            }
+          },
+          {
+            name: 'outerRadius',
+            config: {
+              type: 'TextControl',
+              isInt: true,
+              default: DEFAULT_FORM_DATA.outerRadius,
+              label: t('Choose the ending radius'),          
+            }
+          },
         ],
     ]}
   ]

@@ -12,6 +12,9 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
     segmentAmt, 
     controlledSegments,
     dataChartColor,
+    dataChartLineThickness,
+    outerRadius,
+    innerRadius,
   } = props;
   // Assuming props includes segmentChartFormData
 
@@ -129,7 +132,39 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
           }
         ])            
       ],
-      series: [{
+      series: [
+        {
+          // backGround Chart
+          type: 'custom',
+          renderItem: (params: any, api: any) => {
+            const startAngle = (160 * Math.PI) / 180;
+            const endAngle = startAngle + ((220 / 360) * 2 * Math.PI * 1);
+            const largeArcFlag = (endAngle - startAngle) > Math.PI ? 1 : 0;
+            
+            const [cx, cy] = api.coord([0, 0]);
+
+
+            return {
+              type: 'path',
+              shape: {
+                pathData: `
+                  M ${cx + innerRadius * Math.cos(startAngle)} ${cy + innerRadius * Math.sin(startAngle)}
+                  A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 1
+                    ${cx + innerRadius * Math.cos(endAngle)} ${cy + innerRadius * Math.sin(endAngle)}
+                  L ${cx + outerRadius * Math.cos(endAngle)} ${cy + outerRadius * Math.sin(endAngle)}
+                  A ${outerRadius} ${outerRadius} 0 ${largeArcFlag}  0
+                    ${cx + outerRadius * Math.cos(startAngle)} ${cy + outerRadius * Math.sin(startAngle)}
+                  Z         
+                `,
+              },
+              style: {
+                fill: '#dedede', 
+              },
+            };
+          },
+          data: [[]],
+        },
+        {
         // Data Showcase Chart
         type: 'custom',
         renderItem: (params: any, api: any) => {
@@ -138,23 +173,10 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
           const endAngleRaw = startAngle + ((220 / 360) * 2 * Math.PI * (hardCap / 100));
           const endAngle = endAngleRaw > 2 * Math.PI ? endAngleRaw - 2 * Math.PI : endAngleRaw;
           
-          const outerRadius = 190;
-          const innerRadius = 140;
-          
           const [cx, cy] = api.coord([0, 0]);
 
-          const normalizedEndAngle = (startAngle + ((220 / 360) * 2 * Math.PI * (hardCap / 100))) % (2 * Math.PI);
           const largeArcFlag = (endAngleRaw - startAngle) > Math.PI ? 1 : 0;
-            
-          /*
-          if(hardCap >= 79) {
-            hardCap = 70
-            var endAngle = startAngle + ((220 / 360) * 2 * Math.PI * (hardCap / 100)); // Total span of 200° for hardCap = 100         
-          }
-          */
 
-          console.log(startAngle, endAngle, hardCap)      
-        
           return {
             type: 'path',
             shape: {
@@ -171,7 +193,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
             style: {
               fill: dataChartColor || DEFAULT_FORM_DATA.dataChartColor, 
               stroke: '#000',
-              lineWidth: 2, 
+              lineWidth: dataChartLineThickness || DEFAULT_FORM_DATA.data, 
             },
           };
         },

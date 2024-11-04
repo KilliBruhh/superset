@@ -26,6 +26,9 @@ export type SpeedometerChartFormData = QueryFormData & {
     controlledSegments: any[]   // Create type for this (interface)
     useSegmentColorData: boolean;
     dataChartColor: string;
+    dataChartLineThickness: number;
+    outerRadius: number;
+    innerRadius: number;
 }
 
 // Define the strucute for the query data returned by Superset
@@ -64,6 +67,10 @@ export interface SpeedometerChartProps {
     controlledSegments: any[]   // Create type for this (interface)
     useSegmentColorData: boolean;
     dataChartColor: string;
+    dataChartLineThickness: number;
+    outerRadius: number;
+    innerRadius: number;
+
 }
 
 // Defines defailt values for the SpeedometerChartFormData (fallback values)
@@ -83,6 +90,9 @@ export const DEFAULT_FORM_DATA: Partial<SpeedometerChartFormData> = {
     s3End: 100,
     useSegmentColorData: true,
     dataChartColor: '#4caf50',
+    dataChartLineThickness: 2,
+    outerRadius: 190,
+    innerRadius: 140,
 }
 
 // Transform props for the Speedometer
