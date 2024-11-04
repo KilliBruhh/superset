@@ -5,7 +5,7 @@ import {
   ControlSubSectionHeader,
 } from '@superset-ui/chart-controls';
 import { DEFAULT_FORM_DATA } from './types';
-
+import { hexToRgba } from './transformProps'
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
@@ -86,7 +86,7 @@ const config: ControlPanelConfig = {
             name: 's1ChartColor', // Unique name for the control
             config: {
               type: 'ColorPickerControl', // Type set to ColorPickerControl
-              default: DEFAULT_FORM_DATA.s1ChartColor,
+              default:  hexToRgba("#000"),
               renderTrigger: true,
               label: t('Chart Color'), // Label for the control
               description: t('Select the color for the chart'), // Description

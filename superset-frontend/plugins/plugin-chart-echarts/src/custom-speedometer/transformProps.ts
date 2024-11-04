@@ -1,7 +1,5 @@
-import { use } from "echarts/types/src/extension";
+import { func } from "prop-types";
 import { DEFAULT_FORM_DATA, SpeedometerTransformProps } from "./types";
-import { forEach } from "lodash";
-import { Progress } from "antd";
 
 type RGBA = {r: number, g: number, b: number, a: number };
 
@@ -22,7 +20,7 @@ const calculatePercentage = (min: number, max: number, value: any): number => {
     return percentage;
 }
 
-function rgbaToHex(color: RGBA | string): string {    
+export function rgbaToHex(color: RGBA | string): string {    
     if (typeof color === 'string' && /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/.test(color)) {
         return color;
     }
@@ -35,6 +33,34 @@ function rgbaToHex(color: RGBA | string): string {
     const alphaHex = (Math.round(a * 255)).toString(16).padStart(2, '0');
 
     return a === 1 ? `#${redHex}${greenHex}${blueHex}` : `#${redHex}${greenHex}${blueHex}${alphaHex}`;
+}
+
+export function hexToRgba(hex: any): { r: number, g: number, b: number, a: number } {
+    var alpha: number = 100
+    // Remove the hash if it's there
+    hex = hex.replace(/^#/, '');
+    // If shorthand hex (e.g., #abc), expand it to full form (e.g., #aabbcc)
+    if (hex.length === 3) {
+        hex = hex.split('').map((char: any) => char + char).join('');
+    }
+    // Ensure the hex code is valid
+    if (!/^[A-Fa-f0-9]{6}$/.test(hex)) {
+        throw new Error('Invalid hex color');
+    }
+    // Extract the red, green, and blue components
+    var r = parseInt(hex.slice(0, 2), 16);
+    var g = parseInt(hex.slice(2, 4), 16);
+    var b = parseInt(hex.slice(4, 6), 16);
+
+    r = 0
+    b = 255
+    g = 0            
+        
+        
+
+    console.log(hex, r,g,b,alpha)
+
+    return { r, g, b, a: alpha };
 }
 
 function checkIfStartIsGreaterThanEnd(start: number, end: number) {
@@ -71,7 +97,8 @@ export function checkNoOfverlapping(segment :  {color:string; end: number; start
 export function configureSegmentCharts(formData:any) {
    // Process colors with fallback to default
    const s1ChartColor = rgbaToHex(formData.s1ChartColor) ?? DEFAULT_FORM_DATA.s1ChartColor;
-   // Destructure and rename for clarity
+   
+    // Destructure and rename for clarity
    const { start: s1Start, end: s1End } = checkIfStartIsGreaterThanEnd(
        formData.s1Start ?? DEFAULT_FORM_DATA.s1Start ?? 0,
        formData.s1End ?? DEFAULT_FORM_DATA.s1End ?? 0
@@ -156,7 +183,7 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
     const outerRadius = formData.outerRadius || DEFAULT_FORM_DATA.outerRadius;
     const innerRadius = formData.innerRadius || DEFAULT_FORM_DATA.innerRadius;
 
-    // progress = 86
+    // progress = 86        // Test Value
 
     return {
         width,

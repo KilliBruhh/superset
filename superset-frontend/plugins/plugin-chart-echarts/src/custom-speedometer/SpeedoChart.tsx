@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 import { DEFAULT_FORM_DATA, SpeedometerChartProps, SpeedometerChartFormData } from './types';
 
-
 const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChartFormData) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
@@ -63,7 +62,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
           left: 'center',
           top: '90%',
           style: {
-            text: 'MIN Profit',
+            text: '',
             fontSize: 20,
             fontWeight: 100, 
           }
