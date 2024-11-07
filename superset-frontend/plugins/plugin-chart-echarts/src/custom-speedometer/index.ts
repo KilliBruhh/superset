@@ -12,6 +12,7 @@ export default class SpeedoChartPlugin extends EchartsChartPlugin<
   SpeedometerChartFormData
 > {
   constructor() {
+    console.log("Render Index");
     super({
       buildQuery,
       controlPanel,
@@ -23,7 +24,7 @@ export default class SpeedoChartPlugin extends EchartsChartPlugin<
           Behavior.DrillBy,
         ],
         category: t('!CUSTOM'),
-        credits: ['Killian Serluppens - ClubITBVBA'],
+        credits: ['Killian Serluppens - ClubIt.BVBA'],
         description: t(
           'A Speedomet chart to see progres form  0-100 % '
         ),
