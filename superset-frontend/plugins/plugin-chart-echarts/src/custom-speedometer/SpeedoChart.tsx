@@ -139,7 +139,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
       series: [
         {
           // BackGround Chart
-          type: 'custom',
+          type: 'custom',        
           renderItem: (params: any, api: any) => {
             const startAngle = (160 * Math.PI) / 180;
             const endAngle = startAngle + ((220 / 360) * 2 * Math.PI * 1);
@@ -257,8 +257,8 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
 
   return <div ref={chartRef} style={{ 
     width: '100%', height: '520px',
-    border: '2px solid black',
-    padding: '0px 0px 20px 0px'
+    // border: '2px solid black',
+    padding: '0px 0px 30px 0px'
       }} 
   />;
 };
