@@ -257,7 +257,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
 
   return <div ref={chartRef} style={{ 
     width: '100%', height: '520px',
-    border: '2px solid black',
+    // border: '2px solid black',
     padding: '0px 0px 20px 0px'
       }} 
   />;
