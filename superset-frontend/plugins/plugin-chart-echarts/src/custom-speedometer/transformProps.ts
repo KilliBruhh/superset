@@ -1,5 +1,6 @@
-import { func } from "prop-types";
-import { DEFAULT_FORM_DATA, SpeedometerTransformProps } from "./types";
+import { DEFAULT_FORM_DATA, USER_FORM_DATA, SpeedometerTransformProps, SpeedometerChartFormData } from "./types";
+import { t } from "@superset-ui/core";
+
 
 type RGBA = {r: number, g: number, b: number, a: number };
 
@@ -20,6 +21,7 @@ const calculatePercentage = (min: number, max: number, value: any): number => {
     return percentage;
 }
 
+// Turn color from rgba to Hex
 export function rgbaToHex(color: RGBA | string): string {    
     if (typeof color === 'string' && /^#([A-Fa-f0-9]{3}|[A-Fa-f0-9]{6})$/.test(color)) {
         return color;
@@ -35,6 +37,7 @@ export function rgbaToHex(color: RGBA | string): string {
     return a === 1 ? `#${redHex}${greenHex}${blueHex}` : `#${redHex}${greenHex}${blueHex}${alphaHex}`;
 }
 
+// Turn color from Hex to rgba
 export function hexToRgba(hex: any): { r: number, g: number, b: number, a: number } {
     var alpha: number = 100
     // Remove the hash if it's there
@@ -61,6 +64,16 @@ export function hexToRgba(hex: any): { r: number, g: number, b: number, a: numbe
     console.log(hex, r,g,b,alpha)
 
     return { r, g, b, a: alpha };
+}
+
+// Calculates the thicknes off the DATA chart
+export function calculateThickness(thicknes: number, innerRData: number) {
+    console.log(thicknes, innerRData)
+    const outerDataChart = innerRData + thicknes;
+    const innerSegmentChart = outerDataChart + DEFAULT_FORM_DATA.chartGap!;
+    const outerSegmentChart = innerSegmentChart + DEFAULT_FORM_DATA.segmentChartThickness!;
+    console.log(outerDataChart, innerSegmentChart, outerSegmentChart)
+    return [outerDataChart, innerSegmentChart, outerSegmentChart]
 }
 
 function checkIfStartIsGreaterThanEnd(start: number, end: number) {
@@ -93,8 +106,33 @@ export function checkNoOfverlapping(segment :  {color:string; end: number; start
     return segment
 }
 
+export function renderDynamicControls(formData: any) {
+    return {
+        name: `text_control_Function`,
+        config: {
+          type: 'TextControl',
+          label: t(`Text Field Function `),
+          renderTrigger: true,
+          default: '',
+        },
+    };
+}
+
+export const renderSegmentControls = ((amt: any | undefined, type: string) => {
+    amt = amt ?? DEFAULT_FORM_DATA.segmentAmt;
+    return {
+        name: `text_control_ArrowFunction`,
+        config: {
+          type: 'TextControl',
+          label: t(`Text Field Arrow: ${amt}`),
+          renderTrigger: true,
+          default: '',
+        },
+    }
+});
 
 export function configureSegmentCharts(formData:any) {
+    console.log("Render TransformProps")
    // Process colors with fallback to default
    const s1ChartColor = rgbaToHex(formData.s1ChartColor) ?? DEFAULT_FORM_DATA.s1ChartColor;
    
@@ -141,7 +179,6 @@ export function configureSegmentCharts(formData:any) {
 
 export function checkDataChartColorOption(useDefault: boolean, segmentChartData : any, currentValue: number, userPickedColor:string) {
     if(useDefault) {
-        console.log(segmentChartData.length)
         for(let i = 0; i<segmentChartData.length; i++) {
             if(currentValue <= segmentChartData[i].end) { // Check if progress is in segment i
                 return segmentChartData[i].color
@@ -155,35 +192,59 @@ export function checkDataChartColorOption(useDefault: boolean, segmentChartData 
     }
 }
 
+// Set the ControlPanel Options to the Default Values
+export function getDefaultOptions(formData: Partial<SpeedometerChartFormData>) {
+    saveUserOptions(formData)
+    console.log("Default Options", DEFAULT_FORM_DATA)
+    return {...DEFAULT_FORM_DATA}
+}
+
+// Set the ControlPanel Option to the users selected values
+export function getUserOptions() {
+    console.log("User Options", USER_FORM_DATA)
+    return {...USER_FORM_DATA}
+}
+
+// Save the options the user has set
+export function saveUserOptions(formData: Partial<SpeedometerChartFormData>) {
+    Object.assign(USER_FORM_DATA, formData)
+}
+
 export default function transformProps(chartProps: SpeedometerTransformProps) {
-    const { width, height, formData, queriesData } = chartProps;
-    const { metric } = formData;
+    var { width, height, formData, queriesData } = chartProps;
+    var { metric } = formData;
+
+    // formData = formData.backToDefault ? getDefaultOptions(formData) : getUserOptions()
+    // formData = formData.backToDefault ? getDefaultOptions(formData) as SpeedometerChartFormData : getUserOptions() as SpeedometerChartFormData;
 
     // Ensure there's data
-    const data = queriesData[0]?.data || [];
-    const metricLabel = metric.label;
+    var data = queriesData[0]?.data || [];
+    var metricLabel = metric.label;
 
-    const metricValue = data[0][metricLabel];
+    var metricValue = data[0][metricLabel];
 
     // Get min and max from formData / fall back to defaults
-    const minVal = formData.minValue ?? DEFAULT_FORM_DATA.minValue ?? 0;
-    const maxVal = formData.maxValue ?? DEFAULT_FORM_DATA.maxValue ?? 100;
+    var minVal = formData.minValue ?? DEFAULT_FORM_DATA.minValue ?? 0;
+    var maxVal = formData.maxValue ?? DEFAULT_FORM_DATA.maxValue ?? 100;
 
     // Calculate actual percentage based on dataset, mn and max values
     var progress = calculatePercentage(minVal, maxVal, metricValue); 
     // progress = 70
 
     // Segements 2nd arch
-    const segmentAmount = formData.segmentAmt ?? DEFAULT_FORM_DATA.segmentAmt ?? 0;
+    var segmentAmount = formData.segmentAmt ?? DEFAULT_FORM_DATA.segmentAmt ?? 0;
     
-    const segmentChartFormData = configureSegmentCharts(formData)        
-    const dataChartColor = checkDataChartColorOption(formData.useSegmentColorData, segmentChartFormData.controlledSegments, progress, formData.dataChartColor)
-    const dataChartLineThickness = formData.dataChartLineThickness
+    var segmentChartFormData = configureSegmentCharts(formData)        
+    var dataChartColor = checkDataChartColorOption(formData.useSegmentColorData, segmentChartFormData.controlledSegments, progress, formData.dataChartColor)
+    var dataChartLineThickness = formData.dataChartLineThickness
 
-    const outerRadius = formData.outerRadius || DEFAULT_FORM_DATA.outerRadius;
-    const innerRadius = formData.innerRadius || DEFAULT_FORM_DATA.innerRadius;
+ 
+    var [dataChartOuterRadius, segmentChartInnerRadius, segmentChartOuterRadius] = calculateThickness(formData.dataChartThickness,  DEFAULT_FORM_DATA.dataChartInnerRadius!);
+    var dataChartInnerRadius = DEFAULT_FORM_DATA.dataChartInnerRadius ?? 190
+
 
     // progress = 86        // Test Value
+
 
     return {
         width,
@@ -195,7 +256,9 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
         controlledSegments: segmentChartFormData.controlledSegments,
         dataChartColor: dataChartColor,
         dataChartLineThickness: dataChartLineThickness,
-        outerRadius: outerRadius,
-        innerRadius: innerRadius,
+        dataChartInnerRadius: dataChartInnerRadius,
+        dataChartOuterRadius: dataChartOuterRadius,
+        segmentChartInnerRadius: segmentChartInnerRadius,
+        segmentChartOuterRadius: segmentChartOuterRadius,
     };
 }
