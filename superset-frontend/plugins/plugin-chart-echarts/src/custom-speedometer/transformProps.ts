@@ -240,7 +240,7 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
 
  
     var [dataChartOuterRadius, segmentChartInnerRadius, segmentChartOuterRadius] = calculateThickness(formData.dataChartThickness,  DEFAULT_FORM_DATA.dataChartInnerRadius!);
-    var dataChartInnerRadius = DEFAULT_FORM_DATA.dataChartInnerRadius ?? 190
+    var dataChartInnerRadius = DEFAULT_FORM_DATA.dataChartInnerRadius ?? 140
 
 
     // progress = 86        // Test Value

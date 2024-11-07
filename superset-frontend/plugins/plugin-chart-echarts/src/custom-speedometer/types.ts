@@ -106,13 +106,13 @@ export const DEFAULT_FORM_DATA: Partial<SpeedometerChartFormData> = {
     useSegmentColorData: true,
     dataChartColor: '#4caf50',
     dataChartLineThickness: 2,
-    dataChartOuterRadius: 140,
-    dataChartInnerRadius: 190,
+    dataChartOuterRadius: 190,
+    dataChartInnerRadius: 140,
     dataChartThickness: 50,     // Thickness that user enters
     chartGap: 10,
     segmentChartThickness: 10,
-    segmentChartOuterRadius: 195,
-    segmentChartinnerRadius: 205,
+    segmentChartOuterRadius: 205,
+    segmentChartinnerRadius: 195,
     backToDefault: true,
 }
 
