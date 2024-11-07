@@ -237,7 +237,8 @@ const config: ControlPanelConfig = {
               type: 'TextControl',
               isInt: true,
               default: DEFAULT_FORM_DATA.dataChartThickness,
-              label: t('Choose the Charts Thickness'),          
+              label: t('Choose the Charts Thickness'),         
+              renderTrigger: true 
             }
           },
           

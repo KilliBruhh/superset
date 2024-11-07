@@ -200,7 +200,8 @@ export function getDefaultOptions(formData: Partial<SpeedometerChartFormData>) {
 }
 
 // Set the ControlPanel Option to the users selected values
-export function getUserOptions() {
+export function getUserOptions(formData: Partial<SpeedometerChartFormData>) {
+    saveUserOptions(formData)
     console.log("User Options", USER_FORM_DATA)
     return {...USER_FORM_DATA}
 }
@@ -217,6 +218,15 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
     // formData = formData.backToDefault ? getDefaultOptions(formData) : getUserOptions()
     // formData = formData.backToDefault ? getDefaultOptions(formData) as SpeedometerChartFormData : getUserOptions() as SpeedometerChartFormData;
 
+    
+    if(formData.backToDefault) {
+        console.log("USE DEFAULT");
+        formData = getDefaultOptions(formData) as SpeedometerChartFormData
+    } else {
+        console.log("USE USER");
+        formData = getUserOptions(formData) as SpeedometerChartFormData
+
+    }
     // Ensure there's data
     var data = queriesData[0]?.data || [];
     var metricLabel = metric.label;
