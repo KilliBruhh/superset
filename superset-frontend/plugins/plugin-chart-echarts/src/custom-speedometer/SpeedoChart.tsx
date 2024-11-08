@@ -36,7 +36,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
       title: {
         text: `${calculatedData} %`,
         left: 'center',
-        top: '75%',
+        top: '40%',
         textStyle: {
           fontSize: 58,
           fontWeight: 'bold',
@@ -74,7 +74,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
         },
         {
           type: 'text',
-          left: 1200,
+          left: 750,
           top: 150,
           style: {
             text: `minValue: ${minValue}`,
@@ -84,7 +84,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
         },
         {
           type: 'text',
-          left: 1200,
+          left: 750,
           top: 170,
           style: {
             text: `maxValue: ${maxValue}`,
@@ -94,7 +94,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
         },
         {
           type: 'text',
-          left: 1200,
+          left: 750,
           top: 190,
           style: {
             text: `Segment Amt: ${segmentAmt}`,
@@ -106,7 +106,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
         ...segments2.flatMap((segment, index) => [
           {
             type: 'text',
-            left: 1200,
+            left: 750,
             top: 210 + index * 60,
             style: {
               text: `S${index+1}Start: ${segment.start}`,
@@ -116,7 +116,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
           },
           {
             type: 'text',
-            left: 1200,
+            left: 750,
             top: 230 + index * 60,
             style: {
               text: `S${index+1}End: ${segment.end}`,
@@ -126,7 +126,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
           },
           {
             type: 'text',
-            left: 1200,
+            left: 750,
             top: 250 + index * 60,
             style: {
               text: `S${index+1}Colorcode: ${segment.color}`,
