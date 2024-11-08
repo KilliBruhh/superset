@@ -40,6 +40,9 @@ export type SpeedometerChartFormData = QueryFormData & {
 
 }
 
+export type RGBA = {r: number, g: number, b: number, a: number };
+
+
 // Define the strucute for the query data returned by Superset
 export interface SpeedometerQueryData {
     data: DataRecord[];

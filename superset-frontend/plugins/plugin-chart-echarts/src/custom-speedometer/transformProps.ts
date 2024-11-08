@@ -1,8 +1,6 @@
-import { DEFAULT_FORM_DATA, USER_FORM_DATA, SpeedometerTransformProps, SpeedometerChartFormData } from "./types";
+import { DEFAULT_FORM_DATA, USER_FORM_DATA, SpeedometerTransformProps, SpeedometerChartFormData, RGBA } from "./types";
 import { t } from "@superset-ui/core";
 
-
-type RGBA = {r: number, g: number, b: number, a: number };
 
 const calculatePercentage = (min: number, max: number, value: any): number => {
     if(max === min) {
@@ -59,20 +57,14 @@ export function hexToRgba(hex: any): { r: number, g: number, b: number, a: numbe
     b = 255
     g = 0            
         
-        
-
-    console.log(hex, r,g,b,alpha)
-
     return { r, g, b, a: alpha };
 }
 
 // Calculates the thicknes off the DATA chart
 export function calculateThickness(thicknes: number, innerRData: number) {
-    console.log(thicknes, innerRData)
     const outerDataChart = innerRData + thicknes;
     const innerSegmentChart = outerDataChart + DEFAULT_FORM_DATA.chartGap!;
     const outerSegmentChart = innerSegmentChart + DEFAULT_FORM_DATA.segmentChartThickness!;
-    console.log(outerDataChart, innerSegmentChart, outerSegmentChart)
     return [outerDataChart, innerSegmentChart, outerSegmentChart]
 }
 
@@ -132,7 +124,6 @@ export const renderSegmentControls = ((amt: any | undefined, type: string) => {
 });
 
 export function configureSegmentCharts(formData:any) {
-    console.log("Render TransformProps")
    // Process colors with fallback to default
    const s1ChartColor = rgbaToHex(formData.s1ChartColor) ?? DEFAULT_FORM_DATA.s1ChartColor;
    
@@ -195,14 +186,12 @@ export function checkDataChartColorOption(useDefault: boolean, segmentChartData 
 // Set the ControlPanel Options to the Default Values
 export function getDefaultOptions(formData: Partial<SpeedometerChartFormData>) {
     saveUserOptions(formData)
-    console.log("Default Options", DEFAULT_FORM_DATA)
     return {...DEFAULT_FORM_DATA}
 }
 
 // Set the ControlPanel Option to the users selected values
 export function getUserOptions(formData: Partial<SpeedometerChartFormData>) {
     saveUserOptions(formData)
-    console.log("User Options", USER_FORM_DATA)
     return {...USER_FORM_DATA}
 }
 
@@ -220,10 +209,8 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
 
     
     if(formData.backToDefault) {
-        console.log("USE DEFAULT");
         formData = getDefaultOptions(formData) as SpeedometerChartFormData
     } else {
-        console.log("USE USER");
         formData = getUserOptions(formData) as SpeedometerChartFormData
 
     }
