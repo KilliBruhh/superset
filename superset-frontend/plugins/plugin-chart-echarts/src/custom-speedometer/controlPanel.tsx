@@ -5,10 +5,13 @@ import {
   ControlSubSectionHeader,
 } from '@superset-ui/chart-controls';
 import { DEFAULT_FORM_DATA } from './types';
-import { hexToRgba } from './transformProps'
+import { renderSegmentControls } from './transformProps'
+console.log("Render ControlPanel")
+
 
 const config: ControlPanelConfig = {
   controlPanelSections: [
+
     {
       label: t('Query'),
       expanded: false,
@@ -78,6 +81,12 @@ const config: ControlPanelConfig = {
               label: t('Amount of Segments'),
               description: t('Select the amount of segments the 2nd chart will have'),
             },
+          },
+        ],
+        [
+          // Function to show Dynamic Control Optionss
+          {
+            ...renderSegmentControls(undefined, "ControlPanel"),
           },
         ],
         [<ControlSubSectionHeader>{t('Segement 1')}</ControlSubSectionHeader>],
@@ -191,7 +200,7 @@ const config: ControlPanelConfig = {
             name: 'useSegmentColorData',
             config: {
               type: 'CheckboxControl',
-              label: t('Use Default Color'),
+              label: t('Use Segment Color'),
               description: 'Select if you want to use the color of the active segment',
               default: DEFAULT_FORM_DATA.useSegmentColorData
             },
@@ -223,23 +232,28 @@ const config: ControlPanelConfig = {
         [<ControlSubSectionHeader>{t('Data Chart Thickness')}</ControlSubSectionHeader>],
         [
           {
-            name: 'innerRadius',
+            name: 'dataChartThickness',
             config: {
               type: 'TextControl',
               isInt: true,
-              default: DEFAULT_FORM_DATA.innerRadius,
-              label: t('Choose the starting radius'),          
+              default: DEFAULT_FORM_DATA.dataChartThickness,
+              label: t('Choose the Charts Thickness'),         
+              renderTrigger: true 
             }
           },
+          
+        ],
+        [<ControlSubSectionHeader>{ t('Default Options') }</ControlSubSectionHeader>],
+        [
           {
-            name: 'outerRadius',
+            name: 'backToDefault',
             config: {
-              type: 'TextControl',
-              isInt: true,
-              default: DEFAULT_FORM_DATA.outerRadius,
-              label: t('Choose the ending radius'),          
+              type: 'CheckboxControl',
+              label: t('Use Default Data?'),
+              description: 'Select if you want to use the color of the active segment',
+              default: true,
             }
-          },
+          }
         ],
     ]}
   ]

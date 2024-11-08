@@ -1,6 +1,7 @@
 import { buildQueryContext, QueryObject } from '@superset-ui/core';
 
 export default function buildQuery(formData: any) {
+  console.log("Render BuildQuery")
   const { metric, minVal, maxVal } = formData;
 
   return buildQueryContext(formData, (baseQueryObject: QueryObject) => [{

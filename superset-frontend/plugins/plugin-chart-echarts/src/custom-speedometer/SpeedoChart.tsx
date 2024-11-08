@@ -5,6 +5,7 @@ import { DEFAULT_FORM_DATA, SpeedometerChartProps, SpeedometerChartFormData } fr
 const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChartFormData) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
+
   const { minValue, 
     maxValue, 
     progress,
@@ -12,21 +13,25 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
     controlledSegments,
     dataChartColor,
     dataChartLineThickness,
-    outerRadius,
-    innerRadius,
+    dataChartOuterRadius,
+    dataChartInnerRadius,
+    segmentChartOuterRadius,
+    segmentChartInnerRadius,
   } = props;
   // Assuming props includes segmentChartFormData
 
+  // Decalre state variable
   var calculatedData = progress
 
+  
+
   // Hardcoded values for 2nd chart
-  var outerRadiusSecondChart = 195;
-  var innerRadiusSecondChart = 205;
   const segments2 = controlledSegments
   
   useEffect(() => {
     const chart = echarts.init(chartRef.current!);
-
+    console.log("Render SpeedoChart")
+    
     const options = {
       title: {
         text: `${calculatedData} %`,
@@ -133,8 +138,11 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
       ],
       series: [
         {
-          // backGround Chart
+          // BackGround Chart
           type: 'custom',
+          legendHoverLink: false,
+          animation: false,
+          silent: true,
           renderItem: (params: any, api: any) => {
             const startAngle = (160 * Math.PI) / 180;
             const endAngle = startAngle + ((220 / 360) * 2 * Math.PI * 1);
@@ -147,12 +155,12 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
               type: 'path',
               shape: {
                 pathData: `
-                  M ${cx + innerRadius * Math.cos(startAngle)} ${cy + innerRadius * Math.sin(startAngle)}
-                  A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 1
-                    ${cx + innerRadius * Math.cos(endAngle)} ${cy + innerRadius * Math.sin(endAngle)}
-                  L ${cx + outerRadius * Math.cos(endAngle)} ${cy + outerRadius * Math.sin(endAngle)}
-                  A ${outerRadius} ${outerRadius} 0 ${largeArcFlag}  0
-                    ${cx + outerRadius * Math.cos(startAngle)} ${cy + outerRadius * Math.sin(startAngle)}
+                  M ${cx + dataChartInnerRadius * Math.cos(startAngle)} ${cy + dataChartInnerRadius * Math.sin(startAngle)}
+                  A ${dataChartInnerRadius} ${dataChartInnerRadius} 0 ${largeArcFlag} 1
+                    ${cx + dataChartInnerRadius * Math.cos(endAngle)} ${cy + dataChartInnerRadius * Math.sin(endAngle)}
+                  L ${cx + dataChartOuterRadius * Math.cos(endAngle)} ${cy + dataChartOuterRadius * Math.sin(endAngle)}
+                  A ${dataChartOuterRadius} ${dataChartOuterRadius} 0 ${largeArcFlag}  0
+                    ${cx + dataChartOuterRadius * Math.cos(startAngle)} ${cy + dataChartOuterRadius * Math.sin(startAngle)}
                   Z         
                 `,
               },
@@ -180,12 +188,12 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
             type: 'path',
             shape: {
               pathData: `
-                M ${cx + innerRadius * Math.cos(startAngle)} ${cy + innerRadius * Math.sin(startAngle)}
-                A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 1
-                  ${cx + innerRadius * Math.cos(endAngle)} ${cy + innerRadius * Math.sin(endAngle)}
-                L ${cx + outerRadius * Math.cos(endAngle)} ${cy + outerRadius * Math.sin(endAngle)}
-                A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 0
-                  ${cx + outerRadius * Math.cos(startAngle)} ${cy + outerRadius * Math.sin(startAngle)}
+                M ${cx + dataChartInnerRadius * Math.cos(startAngle)} ${cy + dataChartInnerRadius * Math.sin(startAngle)}
+                A ${dataChartInnerRadius} ${dataChartInnerRadius} 0 ${largeArcFlag} 1
+                  ${cx + dataChartInnerRadius * Math.cos(endAngle)} ${cy + dataChartInnerRadius * Math.sin(endAngle)}
+                L ${cx + dataChartOuterRadius * Math.cos(endAngle)} ${cy + dataChartOuterRadius * Math.sin(endAngle)}
+                A ${dataChartOuterRadius} ${dataChartOuterRadius} 0 ${largeArcFlag} 0
+                  ${cx + dataChartOuterRadius * Math.cos(startAngle)} ${cy + dataChartOuterRadius * Math.sin(startAngle)}
                 Z         
               `,
             },
@@ -216,12 +224,12 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
                 type: 'path',
                 shape: {
                     pathData: `
-                      M ${cx + innerRadiusSecondChart * Math.cos(startAngle)} ${cy + innerRadiusSecondChart * Math.sin(startAngle)}
-                      A ${innerRadiusSecondChart} ${innerRadiusSecondChart} 0 0 1
-                        ${cx + innerRadiusSecondChart * Math.cos(endAngle)} ${cy + innerRadiusSecondChart * Math.sin(endAngle)}
-                      L ${cx + outerRadiusSecondChart * Math.cos(endAngle)} ${cy + outerRadiusSecondChart * Math.sin(endAngle)}
-                      A ${outerRadiusSecondChart} ${outerRadiusSecondChart} 0 0 0
-                        ${cx + outerRadiusSecondChart * Math.cos(startAngle)} ${cy + outerRadiusSecondChart * Math.sin(startAngle)}
+                      M ${cx + segmentChartInnerRadius * Math.cos(startAngle)} ${cy + segmentChartInnerRadius * Math.sin(startAngle)}
+                      A ${segmentChartInnerRadius} ${segmentChartInnerRadius} 0 0 1
+                        ${cx + segmentChartInnerRadius * Math.cos(endAngle)} ${cy + segmentChartInnerRadius * Math.sin(endAngle)}
+                      L ${cx + segmentChartOuterRadius * Math.cos(endAngle)} ${cy + segmentChartOuterRadius * Math.sin(endAngle)}
+                      A ${segmentChartOuterRadius} ${segmentChartOuterRadius} 0 0 0
+                        ${cx + segmentChartOuterRadius * Math.cos(startAngle)} ${cy + segmentChartOuterRadius * Math.sin(startAngle)}
                       Z
                     `,
                 },
@@ -251,8 +259,10 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
   }, [calculatedData]);
 
   return <div ref={chartRef} style={{ 
-    width: '100%', height: '520px',    
-  }} 
+    width: '100%', height: '520px',
+    // border: '2px solid black',
+    padding: '0px 0px 30px 0px'
+      }} 
   />;
 };
 
