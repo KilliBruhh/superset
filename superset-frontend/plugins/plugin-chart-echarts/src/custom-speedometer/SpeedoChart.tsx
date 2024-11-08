@@ -36,7 +36,7 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
       title: {
         text: `${calculatedData} %`,
         left: 'center',
-        top: '40%',
+        top: '45%',
         textStyle: {
           fontSize: 58,
           fontWeight: 'bold',
@@ -64,18 +64,8 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
       graphic: [
         {
           type: 'text',
-          left: 'center',
-          top: '90%',
-          style: {
-            text: '',
-            fontSize: 20,
-            fontWeight: 100, 
-          }
-        },
-        {
-          type: 'text',
-          left: 750,
-          top: 150,
+          left: '25%',
+          top: '70%',
           style: {
             text: `minValue: ${minValue}`,
             fontSize: 16,
@@ -84,8 +74,8 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
         },
         {
           type: 'text',
-          left: 750,
-          top: 170,
+          left: '75%',
+          top: '70%',
           style: {
             text: `maxValue: ${maxValue}`,
             fontSize: 16,
