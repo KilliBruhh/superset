@@ -16,15 +16,20 @@ export type SpeedometerChartFormData = QueryFormData & {
     segmentAmt: number;
     segmentControls: any[];     // Dont know what type this will be atm (createe modal?)
     gSegmentAmt: number;
+    // segment Values
     s1ChartColor: string;    
     s1Start: number;
     s1End: number;
+    s1IsActive: boolean;
     s2ChartColor: string;
     s2Start: number;
     s2End: number;
+    s2IsActive: boolean;
     s3ChartColor: string;
     s3Start: number;
     s3End: number;
+    s3IsActive: boolean;
+    // misc
     controlledSegments: any[]   // Create type for this (interface)
     useSegmentColorData: boolean;
     dataChartColor: string;

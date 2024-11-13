@@ -67,28 +67,6 @@ const config: ControlPanelConfig = {
             },
           },
         ],
-        [<ControlSubSectionHeader>{t('Segment Charts')}</ControlSubSectionHeader>],
-        [
-          {
-            name: 'segmentAmt',
-            config: {
-              type: 'SliderControl',
-              default: DEFAULT_FORM_DATA.segmentAmt,
-              min: 1,
-              max: 10,
-              step: 1,
-              renderTrigger: true, // Make it true to trigger re-render on change
-              label: t('Amount of Segments'),
-              description: t('Select the amount of segments the 2nd chart will have'),
-            },
-          },
-        ],
-        [
-          // Function to show Dynamic Control Optionss
-          {
-            ...renderSegmentControls(undefined, "ControlPanel"),
-          },
-        ],
         [<ControlSubSectionHeader>{t('Segement 1')}</ControlSubSectionHeader>],
         [
           {
@@ -100,7 +78,18 @@ const config: ControlPanelConfig = {
               label: t('Chart Color'), // Label for the control
               description: t('Select the color for the chart'), // Description
             },
+          },
+          {
+            name: 's1IsActive',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Enable this Segment'),
+              default: DEFAULT_FORM_DATA.s1IsActive,
+              description: t('Check this to activate this segment, uncheck it to disable the segment'),
+            }
           },        
+        ],
+        [
           {
             name: 's1Start',
             config: {
@@ -119,12 +108,12 @@ const config: ControlPanelConfig = {
               isInt: true,
               default: DEFAULT_FORM_DATA.s1End,
               renderTrigger: true,
-              label: t('Ending point'),
+              label: t('End'),
               description: t('The Ending degrees of the first segment'),
             }
-          },        
-        ],       
-        [<ControlSubSectionHeader>{t('Segement 2')}</ControlSubSectionHeader>],
+          },     
+        ],               
+        [<ControlSubSectionHeader>{t('Segment 2')}</ControlSubSectionHeader>],
         [
           {
             name: 's2ChartColor', // Unique name for the control
@@ -135,7 +124,18 @@ const config: ControlPanelConfig = {
               label: t('Chart Color'), // Label for the control
               description: t('Select the color for the Second chart'), // Description
             },
-          },        
+          },
+          {
+            name: 's2IsActive',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Enable this Segment'),
+              default: DEFAULT_FORM_DATA.s2IsActive,
+              description: t('Check this to activate this segment, uncheck it to disable the segment'),
+            }
+          },
+        ],
+        [         
           {
             name: 's2Start',
             config: {
@@ -154,11 +154,11 @@ const config: ControlPanelConfig = {
               isInt: true,
               default: DEFAULT_FORM_DATA.s2End,
               renderTrigger: true,
-              label: t('Ending point'),
+              label: t('End'),
               description: t('The Ending degrees of the Second segment'),
             }
           },
-        ],
+        ],               
         [<ControlSubSectionHeader>{t('Segement 3')}</ControlSubSectionHeader>],
         [
           {
@@ -170,7 +170,18 @@ const config: ControlPanelConfig = {
               label: t('Chart Color'), // Label for the control
               description: t('Select the color for the Third chart'), // Description
             },
-          },        
+          },
+          {
+            name: 's3IsActive',
+            config: {
+              type: 'CheckboxControl',
+              label: t('Enable this Segment'),
+              default: DEFAULT_FORM_DATA.s3IsActive,
+              description: t('Check this to activate this segment, uncheck it to disable the segment'),
+            }
+          },
+        ],
+        [      
           {
             name: 's3Start',
             config: {
@@ -189,7 +200,7 @@ const config: ControlPanelConfig = {
               isInt: true,
               default: DEFAULT_FORM_DATA.s3End,
               renderTrigger: true,
-              label: t('Ending point'),
+              label: t('End'),
               description: t('The Ending degrees of the Third segment'),
             }
           },
