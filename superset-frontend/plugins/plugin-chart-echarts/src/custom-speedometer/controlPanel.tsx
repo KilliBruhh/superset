@@ -49,7 +49,7 @@ const config: ControlPanelConfig = {
             config: {
               type: 'TextControl',
               isInt: true,
-              default: DEFAULT_FORM_DATA.minValue,
+              default: DEFAULT_FORM_DATA.minValue || 0,
               renderTrigger: true,
               label: t('Min'),
               description: t('Minimum value on the gauge axis'),
@@ -95,7 +95,7 @@ const config: ControlPanelConfig = {
             config: {
               type: 'TextControl',
               isInt: true,
-              default: DEFAULT_FORM_DATA.s1Start,
+              default: DEFAULT_FORM_DATA.s1Start || 0,
               renderTrigger: true,
               label: t('Start'),
               description: t('Start value of the first Segment'),

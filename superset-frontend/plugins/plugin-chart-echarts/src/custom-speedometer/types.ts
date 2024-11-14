@@ -18,16 +18,16 @@ export type SpeedometerChartFormData = QueryFormData & {
     gSegmentAmt: number;
     // segment Values
     s1ChartColor: string;    
-    s1Start: number;
-    s1End: number;
+    s1Start: number | null;
+    s1End: number | null;
     s1IsActive: boolean;
     s2ChartColor: string;
-    s2Start: number;
-    s2End: number;
+    s2Start: number | null;
+    s2End: number | null;
     s2IsActive: boolean;
     s3ChartColor: string;
-    s3Start: number;
-    s3End: number;
+    s3Start: number | null;
+    s3End: number | null;
     s3IsActive: boolean;
     // misc
     controlledSegments: any[]   // Create type for this (interface)
@@ -105,12 +105,15 @@ export const DEFAULT_FORM_DATA: Partial<SpeedometerChartFormData> = {
     s1ChartColor: '#02F702',
     s1Start: 0,
     s1End: 50,
+    s1IsActive: true,
     s2ChartColor: '#DBA307',
     s2Start: 50,
     s2End: 70,
+    s2IsActive: true,
     s3ChartColor: '#DB0707',
     s3Start: 70,
     s3End: 100,
+    s3IsActive: true,
     useSegmentColorData: true,
     dataChartColor: '#4caf50',
     dataChartLineThickness: 2,

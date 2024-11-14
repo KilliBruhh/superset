@@ -153,6 +153,7 @@ export function configureSegmentCharts(formData:any) {
 
     var controlledSegments =  checkNoOfverlapping(segmentarray)        
 
+    console.log(controlledSegments)
 
     return {
         s1ChartColor,
@@ -200,20 +201,39 @@ export function saveUserOptions(formData: Partial<SpeedometerChartFormData>) {
     Object.assign(USER_FORM_DATA, formData)
 }
 
+// Enable/Disable the Segment based on checkbox status
+export function checkSegmentStatus(formData: Partial<SpeedometerChartFormData>) {
+    console.log(formData)    
+    if (!formData.s1IsActive) {
+        formData.s2Start = formData.s1Start ?? 0;
+        formData.s1Start = formData.s1End = 0;
+    } if (!formData.s2IsActive) {
+        formData.s3Start = formData.s3Start;
+        formData.s2Start = formData.s2End = 0;
+    } if (!formData.s3IsActive) {
+        formData.s2End = formData.s3End;
+        formData.s3Start = formData.s3End = 0;
+    }
+    return formData
+}
+
+
 export default function transformProps(chartProps: SpeedometerTransformProps) {
     var { width, height, formData, queriesData } = chartProps;
     var { metric } = formData;
 
     // formData = formData.backToDefault ? getDefaultOptions(formData) : getUserOptions()
     // formData = formData.backToDefault ? getDefaultOptions(formData) as SpeedometerChartFormData : getUserOptions() as SpeedometerChartFormData;
+    console.log(formData.s1Start)    
+    formData = checkSegmentStatus(formData) as SpeedometerChartFormData;
 
-    
     if(formData.backToDefault) {
         formData = getDefaultOptions(formData) as SpeedometerChartFormData
     } else {
         formData = getUserOptions(formData) as SpeedometerChartFormData
 
     }
+
     // Ensure there's data
     var data = queriesData[0]?.data || [];
     var metricLabel = metric.label;
@@ -238,6 +258,7 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
  
     var [dataChartOuterRadius, segmentChartInnerRadius, segmentChartOuterRadius] = calculateThickness(formData.dataChartThickness,  DEFAULT_FORM_DATA.dataChartInnerRadius!);
     var dataChartInnerRadius = DEFAULT_FORM_DATA.dataChartInnerRadius ?? 140
+
 
 
     // progress = 86        // Test Value
