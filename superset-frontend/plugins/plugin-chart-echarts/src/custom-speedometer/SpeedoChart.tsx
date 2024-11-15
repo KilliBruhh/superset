@@ -203,11 +203,11 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
             const startAngleOffset = (160 * Math.PI) / 180;  // 170° in radians
             const arcSpan = (220 * Math.PI) / 180;           // 200° in radians
         
-            const segmentArcs = segments2.map((segment) => {
+            var segmentArcs = segments2.map((segment) => {
               // Calculate start and end angles for each segment
               const startAngle = startAngleOffset + (arcSpan * (segment.start / 100)); // Map start percentage to radians
               const endAngle = startAngleOffset + (arcSpan * (segment.end / 100));     // Map end percentage to radians
-                
+              
               return {
                   type: 'path',
                   shape: {

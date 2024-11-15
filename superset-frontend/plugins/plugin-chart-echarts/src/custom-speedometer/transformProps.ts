@@ -179,7 +179,7 @@ export function checkDataChartColorOption(useDefault: boolean, segmentChartData 
             }
         }
     } else {
-        // Use User input
+        // Use User inp
         return rgbaToHex(userPickedColor); // Converts the RGBA code to Hex
     }
 }
@@ -203,17 +203,56 @@ export function saveUserOptions(formData: Partial<SpeedometerChartFormData>) {
 
 // Enable/Disable the Segment based on checkbox status
 export function checkSegmentStatus(formData: Partial<SpeedometerChartFormData>) {
-    console.log(formData)    
-    if (!formData.s1IsActive) {
-        formData.s2Start = formData.s1Start ?? 0;
-        formData.s1Start = formData.s1End = 0;
-    } if (!formData.s2IsActive) {
-        formData.s3Start = formData.s3Start;
-        formData.s2Start = formData.s2End = 0;
-    } if (!formData.s3IsActive) {
-        formData.s2End = formData.s3End;
-        formData.s3Start = formData.s3End = 0;
+
+    if(!formData.s1IsActive && !formData.s2IsActive && !formData.s3IsActive ){
+        // No Segments
+        formData.s1End = formData.s1Start = 0;
+        formData.s2End = formData.s2Start = 0;
+        formData.s3End = formData.s3Start = 0;
+    } else if(!formData.s1IsActive) {
+        if(!formData.s2IsActive) {
+            // no S1 and S2 --> S3 from 0-100
+            formData.s1End = formData.s1Start = 0;
+            formData.s2End = formData.s2Start = 0;
+            formData.s3End = 100
+            formData.s3Start = 0
+        } else if(!formData.s3IsActive){
+            // no S1 and S3 --> S2 from 0-100
+            formData.s1End = formData.s1Start = 0;
+            formData.s3End = formData.s3Start = 0;
+            formData.s2Start = 0;
+            formData.s2End = 100;
+        } else {
+            // No S1
+            // S2 --> S1Start - S2End
+            // S3 --> S3Start - S3End
+            formData.s2Start = formData.s1Start;        
+            formData.s1End = formData.s1Start = 0;
+            formData.s1End = formData.s1Start = 0;
+        }
+    } else if(!formData.s2IsActive) {
+        if(!formData.s1IsActive) {
+            // no S1 and S2 --> S3 from 0-100
+        } else if(!formData.s3IsActive){
+            // no S2 and S3 --> S1 from 0-100
+        } else {
+            // No S2
+            // S1 --> S1Start - S2End
+            // S3 --> S3Start - S3End
+        }
+    } else if(!formData.s3IsActive) {
+        if(!formData.s1IsActive) {
+            // no S1 and S3 --> S2 from 0-100
+        } else if(!formData.s2IsActive){
+            // no S2 and S3 --> S1 from 0-100
+        } else {
+            // No S3
+            // S1 --> S1Start - S1End
+            // S2 --> S2Start - S3End
+        }
     }
+    
+
     return formData
 }
 
@@ -225,7 +264,11 @@ export default function transformProps(chartProps: SpeedometerTransformProps) {
     // formData = formData.backToDefault ? getDefaultOptions(formData) : getUserOptions()
     // formData = formData.backToDefault ? getDefaultOptions(formData) as SpeedometerChartFormData : getUserOptions() as SpeedometerChartFormData;
     console.log(formData.s1Start)    
-    formData = checkSegmentStatus(formData) as SpeedometerChartFormData;
+    
+    if (formData.s1IsActive && formData.s2IsActive && formData.s3IsActive ) {
+    } else {
+        formData = checkSegmentStatus(formData) as SpeedometerChartFormData;
+    }
 
     if(formData.backToDefault) {
         formData = getDefaultOptions(formData) as SpeedometerChartFormData

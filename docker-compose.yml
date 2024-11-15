@@ -138,7 +138,7 @@ services:
       cache_from:
         - apache/superset-cache:3.10-slim-bookworm
     container_name: superset_checks
-    command: ["/app/scripts/check-env.py"]
+    # command: ["/app/scripts/check-env.py"]
     env_file:
       - path: docker/.env # default
         required: true
