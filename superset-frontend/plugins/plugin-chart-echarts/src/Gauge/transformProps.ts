@@ -167,6 +167,7 @@ export default function transformProps(
       const name = groupbyLabels
         .map(column => `${verboseMap[column] || column}: ${data_point[column]}`)
         .join(', ');
+      const colorLabel = groupbyLabels.map(col => data_point[col] as string);
       columnsLabelMap.set(
         name,
         groupbyLabels.map(col => data_point[col] as string),
@@ -175,7 +176,7 @@ export default function transformProps(
         value: data_point[metricLabel] as number,
         name,
         itemStyle: {
-          color: colorFn(index, sliceId, colorScheme),
+          color: colorFn(colorLabel, sliceId),
         },
         title: {
           offsetCenter: [
@@ -203,7 +204,7 @@ export default function transformProps(
         item = {
           ...item,
           itemStyle: {
-            color: colorFn(index, sliceId, colorScheme),
+            color: colorFn(index, sliceId),
             opacity: OpacityEnum.SemiTransparent,
           },
           detail: {
