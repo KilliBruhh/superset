@@ -164,11 +164,6 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
         {
         // Data Showcase Chart
         type: 'custom',
-        legendHoverLink: false,
-        animation: true, // Enable animation
-        animationDuration: 1000,  // Animation duration (in ms)
-        animationEasing: 'cubicInOut', // Smooth easing
-        silent: true,
         renderItem: (params: any, api: any) => {
           const startAngle = (160 * Math.PI) / 180; // Convert 170° to radians
           var hardCap = Math.min(calculatedData, 100); // Ensure hardCap does not exceed 100
@@ -205,14 +200,13 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
         renderItem: (params: any, api: any) => {
             const [cx, cy] = api.coord([0, 1]);
         
-            const startAngleOffset = (160 * Math.PI) / 180;  
-            const arcSpan = (220 * Math.PI) / 180;           
-        
-            var segmentArcs = segments2.map((segment) => {
+            const startAngleOffset = (160 * Math.PI) / 180;  // 170° in radians
+            const arcSpan = (220 * Math.PI) / 180;           // 200° in radians
+            const segmentArcs = segments2.map((segment) => {
               // Calculate start and end angles for each segment
               const startAngle = startAngleOffset + (arcSpan * (segment.start / 100)); // Map start percentage to radians
               const endAngle = startAngleOffset + (arcSpan * (segment.end / 100));     // Map end percentage to radians
-              
+                
               return {
                   type: 'path',
                   shape: {
