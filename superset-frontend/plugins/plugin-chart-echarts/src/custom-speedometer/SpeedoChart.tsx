@@ -206,19 +206,22 @@ const SpeedoChart: React.FC<SpeedometerChartFormData> = (props: SpeedometerChart
               // Calculate start and end angles for each segment
               const startAngle = startAngleOffset + (arcSpan * (segment.start / 100)); // Map start percentage to radians
               const endAngle = startAngleOffset + (arcSpan * (segment.end / 100));     // Map end percentage to radians
-                
+              const arcSpanRadians = endAngle - startAngle;
+              const largeArcFlag = arcSpanRadians > Math.PI ? 1 : 0;
+              
               return {
                   type: 'path',
                   shape: {
-                      pathData: `
-                        M ${cx + segmentChartInnerRadius * Math.cos(startAngle)} ${cy + segmentChartInnerRadius * Math.sin(startAngle)}
-                        A ${segmentChartInnerRadius} ${segmentChartInnerRadius} 0 0 1
-                          ${cx + segmentChartInnerRadius * Math.cos(endAngle)} ${cy + segmentChartInnerRadius * Math.sin(endAngle)}
-                        L ${cx + segmentChartOuterRadius * Math.cos(endAngle)} ${cy + segmentChartOuterRadius * Math.sin(endAngle)}
-                        A ${segmentChartOuterRadius} ${segmentChartOuterRadius} 0 0 0
-                          ${cx + segmentChartOuterRadius * Math.cos(startAngle)} ${cy + segmentChartOuterRadius * Math.sin(startAngle)}
-                        Z
-                      `,
+                    pathData: `
+                      M ${cx + segmentChartInnerRadius * Math.cos(startAngle)} ${cy + segmentChartInnerRadius * Math.sin(startAngle)}
+                      A ${segmentChartInnerRadius} ${segmentChartInnerRadius} 0 ${largeArcFlag} 1
+                        ${cx + segmentChartInnerRadius * Math.cos(endAngle)} ${cy + segmentChartInnerRadius * Math.sin(endAngle)}
+                      L ${cx + segmentChartOuterRadius * Math.cos(endAngle)} ${cy + segmentChartOuterRadius * Math.sin(endAngle)}
+                      A ${segmentChartOuterRadius} ${segmentChartOuterRadius} 0 ${largeArcFlag} 0
+                        ${cx + segmentChartOuterRadius * Math.cos(startAngle)} ${cy + segmentChartOuterRadius * Math.sin(startAngle)}
+                      Z
+                    `,  
+                  
                   },
                   style: {
                       fill: segment.color,
