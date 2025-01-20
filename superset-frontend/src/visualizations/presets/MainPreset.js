@@ -19,6 +19,7 @@
 
 // Custom Charts
 import SpeedoChartPlugin from '../../../plugins/plugin-chart-echarts/src/custom-speedometer'
+import LineBarChartPlugin from '../../../plugins/plugin-chart-echarts/src/custom-line-bar';
 
 import { isFeatureEnabled, FeatureFlag, Preset } from '@superset-ui/core';
 import CalendarChartPlugin from '@superset-ui/legacy-plugin-chart-calendar';
@@ -105,6 +106,7 @@ export default class MainPreset extends Preset {
       plugins: [
         // Custom Charts
         new SpeedoChartPlugin().configure({ key: 'speedo-meter' }),
+        new LineBarChartPlugin().configure({ key: 'line-bar' }),
 
         new AreaChartPlugin().configure({ key: 'area' }),
         new BarChartPlugin().configure({ key: 'bar' }),
