@@ -2,41 +2,35 @@ import { DEFAULT_FORM_DATA, LineBarTransformProps, LineBarChartFormData } from "
 import { t } from "@superset-ui/core";
 
 export default function transformProps(chartProps: LineBarTransformProps) {
-    const { width, height, formData, queriesData } = chartProps;
+  const { width, height, formData, queriesData } = chartProps;
 
-    // Access the 'metrix' field
-    var { metric, groupby } = formData;
+  // Access the 'metric' and 'groupby' fields from the formData
+  const { metric, groupby } = formData;
 
-    var data = queriesData[0]?.data || [];
-    var metricLabel = metric.label;
+  // Default groupby to an empty array if undefined
+  const groupByColumns = groupby || [];
 
-    var metricValue = data[0][metricLabel];
+  // Retrieve the data from the query response
+  const data = queriesData[0]?.data || [];
 
+  // Ensure the metric label exists in the data
+  const metricLabel = metric ? metric.label : '';
 
-  // Temporarily hardcode the dimension and metric keys
-  const hardcodedDimension = 'day'; // Replace 'day' with your dimension field name
-  const hardcodedMetric = 'profit'; // Replace 'profit' with your metric field name
+  // Map the data to the format required for the chart
+  const chartData = data.map((record: any) => {
+      // Group by selected dimension(s)
+      const x = groupByColumns.map((group: string) => record[group]).join(' - '); // Join multiple columns if needed
+      const y = record[metricLabel]; // Get the value for the selected metric
 
-  // Map data into x (dimension) and y (metric)
-  const chartData = data.map((record: any) => ({
-    x: record[hardcodedDimension], // Use hardcoded dimension
-    y: record[hardcodedMetric],    // Use hardcoded metric
-  }));
-    console.log('Transformed Data:', chartData);
+      return { x, y };
+  });
 
-    var test_data = [
-        { x: 'Category1', y: 10 },
-        { x: 'Category2', y: 60 },
-        { x: 'Category3', y: 20 },
-        { x: 'Category4', y: 100 },
-        { x: 'Category5', y: 5 },
-    ];
+  console.log('Transformed Data:', chartData);
 
-    console.log({ metric, chartData });
-
-    return {
-        width,
-        height,
-        data: test_data,
-    };
+  // Return the transformed data along with other chart properties
+  return {
+      width,
+      height,
+      data: chartData,
+  };
 }
