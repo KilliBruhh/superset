@@ -25,6 +25,7 @@ export default function transformProps(chartProps: LineBarTransformProps) {
       return { x, y };
   });
 
+  // Command for commimt
   console.log('Transformed Data:', chartData);
 
   // Return the transformed data along with other chart properties
